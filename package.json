@@ -1,7 +1,7 @@
 {
   "name": "shavonne-one-hundred-percent",
   "private": true,
-  "description": "A website supporting the Shavonne O'Loughlin recovery effort",
+  "description": "A website for Shavonne O’Loughlin's story of recovery",
   "version": "0.1.0",
   "author": "Matthew Janicak <janicak@gmail.com>",
   "dependencies": {
