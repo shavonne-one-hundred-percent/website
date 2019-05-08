@@ -12,24 +12,19 @@ exports.createPages = ({ graphql, actions }) => {
   const pageComponent = path.resolve(`./src/templates/page.js`)
 
   return graphql(
-    `
-    {
-        pages: allFile(filter: {
-          sourceInstanceName: { eq: "pages" }
-          internal: { mediaType: { eq: "text/markdown" }}
+    `{
+        pages: allMarkdownRemark(filter: {
+          fields: { collection: { eq: "pages" }}
         }) {
           edges {
             node {
-              childMarkdownRemark {
                 fields {
-                  slug
+                    slug
                 }
-              }
             }
           }
         }
-      }
-    `
+    }`
   ).then(result => {
     if (result.errors) {
       throw result.errors
@@ -38,10 +33,10 @@ exports.createPages = ({ graphql, actions }) => {
     const posts = result.data.pages.edges
     posts.forEach((post) => {
         createPage({
-            path: post.node.childMarkdownRemark.fields.slug,
+            path: post.node.fields.slug,
             component: pageComponent,
             context: {
-                slug: post.node.childMarkdownRemark.fields.slug,
+                slug: post.node.fields.slug,
             },
         })
     })
@@ -52,10 +47,11 @@ exports.createPages = ({ graphql, actions }) => {
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
     const { createNodeField } = actions
-    const slug = createFilePath({ node, getNode })
-    const collection = getNode(node.parent).sourceInstanceName
-
+    
     if (node.internal.type === `MarkdownRemark`) {
+        const slug = createFilePath({ node, getNode })
+        const collection = getNode(node.parent).sourceInstanceName
+        
         createNodeField({
             name: `slug`,
             node,
