@@ -6,7 +6,6 @@ import SEO from "../components/seo"
 
 class IndexPage extends React.Component {
   render(){
-    console.log(this.props)
     const post = this.props.data.allMarkdownRemark.nodes[0]
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteDescription = this.props.data.site.siteMetadata.description
@@ -35,7 +34,7 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(
-      filter: { fields: { slug: { eq: "/" } }}
+      filter: { fields: { slug: { eq: "/home/" }, collection: { eq: "blocks" } }}
     ) {
     	nodes {
         html
