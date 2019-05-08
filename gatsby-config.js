@@ -3,8 +3,7 @@ module.exports = {
     title: `Shavonne 100%`,
     tagline: `On the Road to Recovery...`,
     description: `Shavonne O’Loughlin's Story of Recovery.`,
-    author: `@janicak`,
-    homePage: 'home',
+    facebookURI: `http://www.facebook.com/profile.php?id=1314608751`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -36,16 +35,18 @@ module.exports = {
           {
             resolve: `gatsby-remark-copy-linked-files`,
             options: {
-              // `ignoreFileExtensions` defaults to [`png`, `jpg`, `jpeg`, `bmp`, `tiff`]
-              // as we assume you'll use gatsby-remark-images to handle
-              // images in markdown as it automatically creates responsive
-              // versions of images.
-              //
-              // If you'd like to not use gatsby-remark-images and just copy your
-              // original images to the public directory, set
-              // `ignoreFileExtensions` to an empty array.
               ignoreFileExtensions: [],
             },
+          },
+          {
+            resolve: "gatsby-remark-embed-video",
+            options: {
+              width: 800,
+              ratio: 1.77, // Optional: Defaults to 16/9 = 1.77
+              height: 400, // Optional: Overrides optional.ratio
+              related: false, //Optional: Will remove related videos from the end of an embedded YouTube video.
+              noIframeBorder: true //Optional: Disable insertion of <style> border: 0
+            }
           },
           {
             resolve: `gatsby-remark-responsive-iframe`,
