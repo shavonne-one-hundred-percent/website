@@ -11,8 +11,10 @@ import { StaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import facebookIcon from "../../content/assets/facebook.png"
 require('typeface-gentium-book-basic')
 require('typeface-vollkorn')
+
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -22,6 +24,7 @@ const Layout = ({ children }) => (
           siteMetadata {
             title
             tagline
+            facebookURI
           }
         }
         allMarkdownRemark(
@@ -68,10 +71,28 @@ const Layout = ({ children }) => (
               dangerouslySetInnerHTML={{ __html: data.allMarkdownRemark.nodes[0].html }} 
             />
           </div>
-          <footer>
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
+          <footer
+            style={{
+              height: 61,
+              backgroundColor: `#666`,
+              paddingLeft: 50,
+              verticalAlign: `middle`,
+            }}
+          >
+            <a 
+              href={data.site.siteMetadata.facebookURI}
+              style={{ 
+                display: `flex`,
+                flexDirection: `row`,
+                alignItems: `center`,
+                height: `100%`,
+                textDecoration: `none`,
+                color: `white`,
+              }}
+            >
+              <img src={facebookIcon} alt="Facebook Icon" style={{ marginBottom: 0, }}/>
+              <span style={{ paddingLeft: 10}}>Follow me on Facebook!</span>
+            </a>
           </footer>
         </div>
       </>
