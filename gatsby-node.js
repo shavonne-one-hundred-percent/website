@@ -9,19 +9,21 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
+  const pageComponent = path.resolve(`./src/templates/page.js`)
 
-  const page = path.resolve(`./src/templates/page.js`)
   return graphql(
     `
-      {
-        pages: allMarkdownRemark {
+    {
+        pages: allFile(filter: {
+          sourceInstanceName: { eq: "pages" }
+          internal: { mediaType: { eq: "text/markdown" }}
+        }) {
           edges {
             node {
-              fields {
-                slug
-              }
-              frontmatter {
-                title
+              childMarkdownRemark {
+                fields {
+                  slug
+                }
               }
             }
           }
@@ -34,34 +36,35 @@ exports.createPages = ({ graphql, actions }) => {
     }
 
     const posts = result.data.pages.edges
-
     posts.forEach((post) => {
-      const slug = post.node.fields.slug
-        if (slug !== '/') {
-            createPage({
-                path: post.node.fields.slug,
-                component: page,
-                context: {
-                    slug: post.node.fields.slug,
-                },
-            })
-        }
+        createPage({
+            path: post.node.childMarkdownRemark.fields.slug,
+            component: pageComponent,
+            context: {
+                slug: post.node.childMarkdownRemark.fields.slug,
+            },
+        })
     })
 
     return null
-
   })
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
+    const { createNodeField } = actions
+    const slug = createFilePath({ node, getNode })
+    const collection = getNode(node.parent).sourceInstanceName
 
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-    createNodeField({
-      name: `slug`,
-      node,
-      value,
-    })
-  }
+    if (node.internal.type === `MarkdownRemark`) {
+        createNodeField({
+            name: `slug`,
+            node,
+            value: slug,
+        })
+        createNodeField({
+            name: `collection`,
+            node,
+            value: collection,
+        })
+    }
 }

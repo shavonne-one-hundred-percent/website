@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Shavonne One Hundred Percent`,
+    title: `Shavonne 100%`,
+    tagline: `On the Road to Recovery...`,
     description: `Shavonne O’Loughlin's Story of Recovery.`,
     author: `@janicak`,
     homePage: 'home',
@@ -17,8 +18,8 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'homePage',
-        path: `${__dirname}/content/home_page`,
+        name: 'blocks',
+        path: `${__dirname}/content/blocks`,
       },
     },
     {
