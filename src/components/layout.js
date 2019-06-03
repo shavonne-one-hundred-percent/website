@@ -27,13 +27,6 @@ const Layout = ({ children }) => (
             facebookURI
           }
         }
-        allMarkdownRemark(
-          filter: { fields: { slug: { eq: "/sidebar/" }, collection: { eq: "blocks" } }}
-        ) {
-          nodes {
-            html
-          }
-        }
       }
     `}
     render={data => (
@@ -62,14 +55,6 @@ const Layout = ({ children }) => (
             >
               {children}
             </main>
-            <aside
-              style={{
-                padding: `30px 15px`,
-                minWidth: 307,
-                borderLeft: `1px dotted #666`,
-              }}
-              dangerouslySetInnerHTML={{ __html: data.allMarkdownRemark.nodes[0].html }} 
-            />
           </div>
           <footer
             style={{
